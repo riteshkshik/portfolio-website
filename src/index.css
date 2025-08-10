@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Minimal theme so shadcn-like tokens work */
+@layer base {
+  :root { color-scheme: light; }
+  .dark { color-scheme: dark; }
+  body { @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100; }
+  a { @apply text-inherit no-underline; }
+  img, video { @apply max-w-full h-auto; }
+}
+
+/* Token-style helpers */
+@layer utilities {
+  .bg-background { @apply bg-white dark:bg-neutral-950; }
+  .text-foreground { @apply text-neutral-900 dark:text-neutral-100; }
+
+  .bg-muted { @apply bg-neutral-100/60 dark:bg-neutral-800/50; }
+  .text-muted-foreground { @apply text-neutral-600 dark:text-neutral-400; }
+
+  .text-primary { @apply text-indigo-600 dark:text-indigo-400; }
+  .bg-primary { @apply bg-indigo-600 dark:bg-indigo-500; }
+
+  /* subtle float + glow for hero image */
+  .float-slow { animation: float 6s ease-in-out infinite; }
+  .pulse-soft { animation: pulseSoft 3s ease-in-out infinite; }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes pulseSoft {
+  0%,100% { opacity: .5; filter: blur(24px); }
+  50% { opacity: .9; filter: blur(30px); }
+}

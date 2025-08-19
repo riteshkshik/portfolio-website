@@ -15,6 +15,15 @@
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
+    <script>
+      // Apply stored theme early to avoid FOUC
+      try {
+        const t = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const dark = t ? t === 'dark' : prefersDark;
+        if (dark) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

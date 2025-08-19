@@ -2,21 +2,11 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { NAV } from '@/data';
 import { Menu, SunMedium, MoonStar } from 'lucide-react';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function Navbar() {
   const [open, setOpen] = React.useState(false);
-  const [dark, setDark] = React.useState(false);
-
-  React.useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-    const enabled = saved ? saved === 'dark' : prefersDark;
-    setDark(enabled);
-  }, []);
-  React.useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark);
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
-  }, [dark]);
+  const { isDark, toggleTheme } = useTheme();
 
   return (
     <div className="fixed top-0 inset-x-0 z-50 backdrop-blur bg-background/85 border-b">
@@ -34,13 +24,13 @@ export default function Navbar() {
             <Button asChild>
               <a href="#contact">Hire Me</a>
             </Button>
-            <Button variant="ghost" aria-label="Toggle theme" onClick={() => setDark((d) => !d)}>
-              {dark ? <SunMedium className="h-5 w-5" /> : <MoonStar className="h-5 w-5" />}
+            <Button variant="ghost" aria-label="Toggle theme" onClick={toggleTheme}>
+              {isDark ? <SunMedium className="h-5 w-5" /> : <MoonStar className="h-5 w-5" />}
             </Button>
           </nav>
           <div className="md:hidden flex items-center gap-2">
-            <Button variant="ghost" aria-label="Toggle theme" onClick={() => setDark((d) => !d)}>
-              {dark ? <SunMedium className="h-5 w-5" /> : <MoonStar className="h-5 w-5" />}
+            <Button variant="ghost" aria-label="Toggle theme" onClick={toggleTheme}>
+              {isDark ? <SunMedium className="h-5 w-5" /> : <MoonStar className="h-5 w-5" />}
             </Button>
             <Button variant="outline" onClick={() => setOpen((o) => !o)}>
               <Menu className="h-5 w-5" />

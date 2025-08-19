@@ -1,12 +1,41 @@
-# React + Vite
+## Ritesh.dev – Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Professional, componentized React + Vite portfolio with Tailwind CSS, Framer Motion, and a clean, scalable structure.
 
-Currently, two official plugins are available:
+### Tech
+- React 19 (Vite)
+- Tailwind CSS
+- Framer Motion
+- ESLint (modern config)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Scripts
+- dev: local development server
+- build: production build
+- preview: preview the build
+- lint: run ESLint
 
-## Expanding the ESLint configuration
+### Project Structure
+```
+src/
+  assets/                # static assets
+  components/            # shared UI components, feature components
+    ui/                  # design-system primitives (badge, button, card)
+  data/                  # data/constants for the site
+  layouts/               # layout-level components (Navbar, Footer)
+  lib/                   # utilities (animations, helpers)
+  sections/              # page sections (Hero, Skills, Experience...)
+  index.css              # global styles and tokens
+  main.jsx               # app bootstrap
+  App.jsx                # page composition
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Conventions
+- Absolute imports via `@` pointing to `src`
+- Co-locate section-specific logic in `src/sections`
+- Keep UI primitives generic and reusable in `src/components/ui`
+
+### Develop
+```bash
+npm i
+npm run dev
+```

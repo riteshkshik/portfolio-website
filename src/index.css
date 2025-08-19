@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Minimal theme so shadcn-like tokens work */
+/* Design tokens and base resets */
 @layer base {
   :root { color-scheme: light; }
   .dark { color-scheme: dark; }

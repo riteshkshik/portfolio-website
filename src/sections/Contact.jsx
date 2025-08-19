@@ -6,6 +6,46 @@ import { CONTACT } from '@/data';
 import { fadeUp } from '@/lib/animations';
 
 export default function Contact() {
+  const [result, setResult] = React.useState('');
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setResult('Sending...');
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    formData.append('access_key', accessKey || '');
+    // Optional extra metadata
+    formData.append('from_name', 'Ritesh.dev');
+    formData.append('subject', 'New inquiry from Ritesh.dev');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' }, // ensures JSON response instead of redirect
+      });
+
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (_) {
+        // If response is not JSON (should not happen with Accept header), fall through
+      }
+
+      if (response.ok && data?.success) {
+        setResult('Done');
+        form.reset();
+      } else {
+        console.error('Submit Error', data || response.statusText);
+        setResult('Internal Server Error');
+      }
+    } catch (err) {
+      console.error('Network Error', err);
+      setResult('Network Error');
+    }
+  };
   return (
     <section id="contact" className="scroll-mt-24 py-12 md:py-16">
       <div className="mx-auto max-w-6xl px-4">
@@ -34,16 +74,7 @@ export default function Contact() {
               </div>
             </div>
             <div>
-              <form
-                className="grid gap-3"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const data = new FormData(e.currentTarget);
-                  const subject = encodeURIComponent('New inquiry from Ritesh.dev');
-                  const body = encodeURIComponent(`Name: ${data.get('name')}\nEmail: ${data.get('email')}\nMessage: ${data.get('message')}`);
-                  window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
-                }}
-              >
+              <form className="grid gap-3" onSubmit={onSubmit}>
                 <div className="grid gap-1">
                   <label className="text-sm" htmlFor="name">Your name</label>
                   <input id="name" name="name" className="rounded-xl border border-neutral-300 dark:border-neutral-700 px-3 py-2 bg-background" required />
@@ -56,7 +87,12 @@ export default function Contact() {
                   <label className="text-sm" htmlFor="message">Message</label>
                   <textarea id="message" name="message" rows={4} className="rounded-xl border border-neutral-300 dark:border-neutral-700 px-3 py-2 bg-background" required />
                 </div>
-                <Button className="mt-1 gap-2">Send Email <ExternalLink className="h-4 w-4" /></Button>
+                <div className="flex items-center gap-3 mt-1">
+                  <Button type="submit" className="gap-2">
+                    Send <ExternalLink className="h-4 w-4" />
+                  </Button>
+                  {result && <span className="text-sm text-muted-foreground">{result}</span>}
+                </div>
               </form>
             </div>
           </div>

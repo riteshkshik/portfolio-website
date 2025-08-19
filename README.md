@@ -39,3 +39,12 @@ src/
 npm i
 npm run dev
 ```
+
+### Environment
+Create a `.env` file at the project root with:
+```
+VITE_WEB3FORMS_ACCESS_KEY=01d5a544-75cd-40b0-bf08-9bfe849db363
+```
+Never commit actual secrets for production; rotate and inject via your hosting provider’s env settings.
+
+If you see a network error after a successful email, ensure the request includes `Accept: application/json` and that ad-blockers/VPN aren’t interfering.
